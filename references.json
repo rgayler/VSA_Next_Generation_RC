@@ -1,0 +1,402 @@
+[
+    {
+        "DOI": "10.1038/s41467-021-25801-2",
+        "ISSN": "2041-1723",
+        "URL": "https://www.nature.com/articles/s41467-021-25801-2",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Gauthier",
+                "given": "Daniel J."
+            },
+            {
+                "family": "Bollt",
+                "given": "Erik"
+            },
+            {
+                "family": "Griffith",
+                "given": "Aaron"
+            },
+            {
+                "family": "Barbosa",
+                "given": "Wendson A. S."
+            }
+        ],
+        "container-title": "Nature Communications",
+        "container-title-short": "Nat Commun",
+        "id": "gauthierNextGenerationReservoir2021",
+        "issue": "1",
+        "issued": {
+            "date-parts": [
+                [
+                    2021,
+                    9,
+                    21
+                ]
+            ]
+        },
+        "key": "L6WGDPGN",
+        "language": "en",
+        "libraryid": "1",
+        "note": "Citation Key: gauthierNextGenerationReservoir2021",
+        "number": "1",
+        "page": "5564",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "publisher": "Nature",
+        "publishing group\ncitation key": "gauthierNextGenerationReservoir2021",
+        "rights": "2021 The Author(s)",
+        "source": "www.nature.com",
+        "title": "Next generation reservoir computing",
+        "type": "article-journal",
+        "volume": "12"
+    },
+    {
+        "author": [
+            {
+                "family": "Kanerva",
+                "given": "Pentti"
+            }
+        ],
+        "event": "Real World Computing Symposium (RWC)",
+        "id": "kanervaFullyDistributedRepresentation1997",
+        "issued": {
+            "date-parts": [
+                [
+                    1997
+                ]
+            ]
+        },
+        "key": "H3W4CYYU",
+        "language": "en",
+        "libraryid": "1",
+        "page": "358 - 365",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "source": "Zotero",
+        "title": "Fully Distributed Representation",
+        "type": "paper-conference"
+    },
+    {
+        "URL": "http://arxiv.org/abs/2208.10917",
+        "abstractnote": "We introduce a method for embedding graphs as vectors in a structure-preserving manner. In this paper, we showcase its rich representational capacity and give some theoretical properties of our method. In particular, our procedure falls under the bind-and-sum approach, and we show that our binding operation -- the tensor product -- is the most general binding operation that respects the principle of superposition. Similarly, we show that the spherical code achieves optimal compression. We then establish some precise results characterizing the performance our method as well as some experimental results showcasing how it can accurately perform various graph operations even when the number of edges is quite large. Finally, we conclude with establishing a link to adjacency matrices, showing that our method is, in some sense, a generalization of adjacency matrices with applications towards large sparse graphs.",
+        "accessdate": "2022-08-25 07:03:42",
+        "archiveid": "arXiv:2208.10917",
+        "arxiv": "2208.10917",
+        "author": [
+            {
+                "family": "Qiu",
+                "given": "Frank"
+            }
+        ],
+        "date": "2022-08-18 2022-08-18",
+        "extra": "arXiv:2208.10917 [cs, stat]",
+        "id": "qiuGraphEmbeddingsTensor2022",
+        "key": "TVD8THLI",
+        "librarycatalog": "arXiv.org",
+        "libraryid": "1",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "repository": "arXiv",
+        "title": "Graph Embeddings via Tensor Products and Approximately Orthonormal Codes",
+        "type": "article"
+    },
+    {
+        "DOI": "10.1109/TNNLS.2020.3043309",
+        "ISSN": "2162-237X, 2162-2388",
+        "URL": "https://ieeexplore.ieee.org/document/9303448/",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Kleyko",
+                "given": "Denis"
+            },
+            {
+                "family": "Frady",
+                "given": "Edward Paxon"
+            },
+            {
+                "family": "Kheffache",
+                "given": "Mansour"
+            },
+            {
+                "family": "Osipov",
+                "given": "Evgeny"
+            }
+        ],
+        "container-title": "IEEE Transactions on Neural Networks and Learning Systems",
+        "container-title-short": "IEEE Trans. Neural Netw. Learning Syst.",
+        "https": "//arxiv.org/abs/1706.00280",
+        "id": "kleykoIntegerEchoState2022",
+        "issue": "4",
+        "issued": {
+            "date-parts": [
+                [
+                    2022,
+                    4
+                ]
+            ]
+        },
+        "key": "CHY6YKXL",
+        "libraryid": "1",
+        "page": "1688-1701",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "source": "DOI.org (Crossref)",
+        "title": "Integer Echo State Networks: Efficient Reservoir Computing for Digital Hardware",
+        "title-short": "Integer Echo State Networks",
+        "type": "article-journal",
+        "volume": "33"
+    },
+    {
+        "DOI": "10.1162/neco_a_01084",
+        "ISSN": "0899-7667",
+        "URL": "https://doi.org/10.1162/neco_a_01084",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Frady",
+                "given": "E. Paxon"
+            },
+            {
+                "family": "Kleyko",
+                "given": "Denis"
+            },
+            {
+                "family": "Sommer",
+                "given": "Friedrich T."
+            }
+        ],
+        "container-title": "Neural Computation",
+        "container-title-short": "Neural Computation",
+        "id": "fradyTheorySequenceIndexing2018a",
+        "issue": "6",
+        "issued": {
+            "date-parts": [
+                [
+                    2018,
+                    6,
+                    1
+                ]
+            ]
+        },
+        "key": "YF228FPD",
+        "libraryid": "1",
+        "page": "1449-1513",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "source": "Silverchair",
+        "title": "A Theory of Sequence Indexing and Working Memory in Recurrent Neural Networks",
+        "type": "article-journal",
+        "volume": "30"
+    },
+    {
+        "DOI": "10.1145/3538531",
+        "ISSN": "0360-0300, 1557-7341",
+        "URL": "https://dl.acm.org/doi/10.1145/3538531",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Kleyko",
+                "given": "Denis"
+            },
+            {
+                "family": "Rachkovskij",
+                "given": "Dmitri A."
+            },
+            {
+                "family": "Osipov",
+                "given": "Evgeny"
+            },
+            {
+                "family": "Rahimi",
+                "given": "Abbas"
+            }
+        ],
+        "container-title": "ACM Computing Surveys",
+        "container-title-short": "ACM Comput. Surv.",
+        "https": "//arxiv.org/pdf/2111.06077.pdf",
+        "id": "kleykoSurveyHyperdimensionalComputing2022a",
+        "issued": {
+            "date-parts": [
+                [
+                    2022,
+                    5,
+                    19
+                ]
+            ]
+        },
+        "key": "BGZ9FP97",
+        "language": "en",
+        "libraryid": "1",
+        "note": "Citation Key: kleykoSurveyHyperdimensionalComputing2022a\nhttps://arxiv.org/pdf/2111.06077.pdf",
+        "page": "3538531",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "source": "DOI.org (Crossref)",
+        "title": "A Survey on Hyperdimensional Computing aka Vector Symbolic Architectures, Part I: Models and Data Transformations",
+        "title-short": "A Survey on Hyperdimensional Computing aka Vector Symbolic Architectures, Part I",
+        "type": "article-journal"
+    },
+    {
+        "URL": "https://github.com/hyperdimensional-computing/torchhd/issues/75",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Gayler",
+                "given": "Ross W."
+            }
+        ],
+        "container-title": "GitHub",
+        "genre": "GitHub repository",
+        "https": "//web.archive.org/web/20230406041610/https://github.com/hyperdimensional-computing/torchhd/issues/75#issue-1260667235",
+        "id": "gaylerImplementRandselBundling2022",
+        "issued": {
+            "date-parts": [
+                [
+                    2022,
+                    6,
+                    4
+                ]
+            ]
+        },
+        "key": "JFG63DDA",
+        "language": "en",
+        "libraryid": "1",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "title": "Implement randsel bundling · Issue #75 · hyperdimensional-computing/torchhd",
+        "type": "webpage"
+    },
+    {
+        "URL": "https://torchhd.readthedocs.io/en/stable/generated/torchhd.randsel.html",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Heddes",
+                "given": "Mike"
+            },
+            {
+                "family": "Nunes",
+                "given": "Igor"
+            },
+            {
+                "family": "Desai",
+                "given": "Dheyay"
+            },
+            {
+                "family": "Vergés",
+                "given": "Pere"
+            }
+        ],
+        "container-title": "Torchhd documentation",
+        "https": "//web.archive.org/web/20230406041120/https://torchhd.readthedocs.io/en/stable/generated/torchhd.randsel.html",
+        "id": "heddesRandselTorchhdDocumentation2022",
+        "issued": {
+            "date-parts": [
+                [
+                    2022
+                ]
+            ]
+        },
+        "key": "PVSABFLT",
+        "libraryid": "1",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "title": "randsel — Torchhd documentation",
+        "type": "webpage"
+    },
+    {
+        "DOI": "10.4324/9781315789354-58",
+        "ISBN": "978-1-315-78935-4",
+        "URL": "https://www.taylorfrancis.com/books/9781317729266/chapters/10.4324/9781315789354-58",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "French",
+                "given": "Robert M."
+            }
+        ],
+        "container-title": "Proceedings of the Sixteenth Annual Conference of the Cognitive Science Society",
+        "editor": [
+            {
+                "family": "Ram",
+                "given": "Ashwin"
+            },
+            {
+                "family": "Eiselt",
+                "given": "Kurt"
+            }
+        ],
+        "event": "Sixteenth Annual Conference of the Cognitive Science Society",
+        "id": "frenchDynamicallyConstrainingConnectionist1994",
+        "issued": {
+            "date-parts": [
+                [
+                    1994,
+                    8
+                ]
+            ]
+        },
+        "key": "58RCCYMY",
+        "language": "en",
+        "libraryid": "1",
+        "page": "335-340",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "publisher": "Routledge",
+        "publisher-place": "Atlanta, GA, USA",
+        "source": "DOI.org (Crossref)",
+        "title": "Dynamically constraining connectionist networks to produce distributed, orthogonal representations to reduce catastrophic interference",
+        "type": "paper-conference"
+    },
+    {
+        "DOI": "10.1007/s42113-022-00127-4",
+        "ISSN": "2522-087X",
+        "URL": "https://doi.org/10.1007/s42113-022-00127-4",
+        "accessed": {
+            "date-parts": []
+        },
+        "author": [
+            {
+                "family": "Shabahang",
+                "given": "Kevin D."
+            },
+            {
+                "family": "Yim",
+                "given": "Hyungwook"
+            },
+            {
+                "family": "Dennis",
+                "given": "Simon J."
+            }
+        ],
+        "container-title": "Computational Brain & Behavior",
+        "container-title-short": "Comput Brain Behav",
+        "id": "shabahangGeneralizationRetrievalUsing2022",
+        "issue": "1",
+        "issued": {
+            "date-parts": [
+                [
+                    2022,
+                    3,
+                    1
+                ]
+            ]
+        },
+        "key": "YWKXLZ4D",
+        "language": "en",
+        "libraryid": "1",
+        "page": "124-155",
+        "providerkey": "2509FBBE-5BB0-44C4-B119-6083A81ED673",
+        "source": "Springer Link",
+        "title": "Generalization at Retrieval Using Associative Networks with Transient Weight Changes",
+        "type": "article-journal",
+        "volume": "5"
+    }
+]

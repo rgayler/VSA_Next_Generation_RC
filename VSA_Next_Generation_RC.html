@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.302">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -85,7 +85,10 @@ div.csl-indent {
   </ul></li>
   <li><a href="#vsa-polynomial-reservoir-update" id="toc-vsa-polynomial-reservoir-update" class="nav-link" data-scroll-target="#vsa-polynomial-reservoir-update"><span class="header-section-number">4</span> VSA polynomial reservoir update</a>
   <ul class="collapse">
-  <li><a href="#develop-polynomial-update-formula" id="toc-develop-polynomial-update-formula" class="nav-link" data-scroll-target="#develop-polynomial-update-formula"><span class="header-section-number">4.1</span> Develop polynomial update formula</a></li>
+  <li><a href="#develop-polynomial-update-formulae" id="toc-develop-polynomial-update-formulae" class="nav-link" data-scroll-target="#develop-polynomial-update-formulae"><span class="header-section-number">4.1</span> Develop polynomial update formulae</a></li>
+  <li><a href="#x-1n" id="toc-x-1n" class="nav-link" data-scroll-target="#x-1n"><span class="header-section-number">4.2</span> <span class="math inline">\((x + 1)^n\)</span></a></li>
+  <li><a href="#multiplicative-identity-mathbf1-and-copy-arcs" id="toc-multiplicative-identity-mathbf1-and-copy-arcs" class="nav-link" data-scroll-target="#multiplicative-identity-mathbf1-and-copy-arcs"><span class="header-section-number">4.3</span> Multiplicative identity (<span class="math inline">\(\mathbf{1}\)</span>) and copy arcs</a></li>
+  <li><a href="#reservoir-update-with-permutation" id="toc-reservoir-update-with-permutation" class="nav-link" data-scroll-target="#reservoir-update-with-permutation"><span class="header-section-number">4.4</span> Reservoir update with permutation</a></li>
   </ul></li>
   <li><a href="#feature-fading" id="toc-feature-fading" class="nav-link" data-scroll-target="#feature-fading"><span class="header-section-number">5</span> Feature fading</a>
   <ul class="collapse">
@@ -101,8 +104,8 @@ div.csl-indent {
   <li><a href="#warm-up" id="toc-warm-up" class="nav-link" data-scroll-target="#warm-up"><span class="header-section-number">6.4</span> Warm up</a></li>
   <li><a href="#dynamic-readout" id="toc-dynamic-readout" class="nav-link" data-scroll-target="#dynamic-readout"><span class="header-section-number">6.5</span> Dynamic readout</a></li>
   <li><a href="#dynamic-update" id="toc-dynamic-update" class="nav-link" data-scroll-target="#dynamic-update"><span class="header-section-number">6.6</span> Dynamic update</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">6.7</span> </a></li>
   </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="VSA_Next_Generation_RC.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -137,35 +140,37 @@ div.csl-indent {
 
 </header>
 
-<section id="objectives" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="objectives"><span class="header-section-number">1</span> Objectives</h2>
+<div style="page-break-after: always;"></div>
+<section id="objectives" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Objectives</h1>
 <p>The aim of this project is to develop good VSA implementations of Next Generation Reservoir Computing <span class="citation" data-cites="gauthierNextGenerationReservoir2021">(<a href="#ref-gauthierNextGenerationReservoir2021" role="doc-biblioref">Gauthier et al. 2021</a>)</span>. The sought outcomes are:</p>
 <ul>
 <li><p>A good, practical multivariate dynamical system predictor;</p></li>
 <li><p>Further theoretical development of VSA through exposure of current understanding to new practical problems. (I view theoretical development as being about finding productive interpretations/extensions of the abstract basis of VSA.)</p></li>
 </ul>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="statistical-feature-construction" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="statistical-feature-construction"><span class="header-section-number">2</span> Statistical feature construction</h2>
-<section id="what-does-reservoir-computing-do" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="what-does-reservoir-computing-do"><span class="header-section-number">2.1</span> What does Reservoir Computing do?</h3>
+<section id="statistical-feature-construction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Statistical feature construction</h1>
+<section id="what-does-reservoir-computing-do" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-does-reservoir-computing-do"><span class="header-section-number">2.1</span> What does Reservoir Computing do?</h2>
 <p>Reservoir computing uses a recurrently updated reservoir to create a representation vector from a sequence of input values. The reservoir value is transformed to predictions by a simple linear readout transformation, for example see <span class="citation" data-cites="gauthierNextGenerationReservoir2021">(<a href="#ref-gauthierNextGenerationReservoir2021" role="doc-biblioref">Gauthier et al. 2021, fig. 1</a>)</span>.</p>
 </section>
-<section id="interpretation-as-statistical-feature-construction" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="interpretation-as-statistical-feature-construction"><span class="header-section-number">2.2</span> Interpretation as statistical feature construction</h3>
+<section id="interpretation-as-statistical-feature-construction" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="interpretation-as-statistical-feature-construction"><span class="header-section-number">2.2</span> Interpretation as statistical feature construction</h2>
 <p>The linear readout is equivalent to the application of a standard statistical regression model. A standard univariate regression model is effectively the calculation of the dot product of the vector of regression coefficients and the vector of predictor values. A multivariate regression is the concatenation of multiple univariate regressions (so the vector of regression coefficients becomes a matrix of regression coefficients). Under this interpretation, the reservoir is constructing the vector of predictor values to be input to the regression model.</p>
 </section>
-<section id="vsa-representation-of-predictors" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="vsa-representation-of-predictors"><span class="header-section-number">2.3</span> VSA representation of predictors</h3>
+<section id="vsa-representation-of-predictors" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="vsa-representation-of-predictors"><span class="header-section-number">2.3</span> VSA representation of predictors</h2>
 <p>In standard statistics/ML the representation of predictor values is localist. However, in VSA the natural form of representation is distributed key-value pairs, with the key corresponding to the identity of the predictor and the value corresponding to the value of the predictor <span class="citation" data-cites="kanervaFullyDistributedRepresentation1997">(<a href="#ref-kanervaFullyDistributedRepresentation1997" role="doc-biblioref">Kanerva 1997</a>)</span>. I <em>think</em> that the distributed representations can be viewed as rotations of a localist representation <span class="citation" data-cites="qiuGraphEmbeddingsTensor2022">(<a href="#ref-qiuGraphEmbeddingsTensor2022" role="doc-biblioref">Qiu, n.d., sec. 6.1</a>)</span>.</p>
 <p>It’s also worth noting that in standard statistics/ML the value of a predictor is represented as the scalar value of the predictor variable. This can be directly implemented by representing the value of the predictor variable by the magnitude of the hypervector (e.g. <span class="citation" data-cites="kleykoIntegerEchoState2022">Kleyko, Frady, et al. (<a href="#ref-kleykoIntegerEchoState2022" role="doc-biblioref">2022</a>)</span>, sec IV.A.2). Note that this represents the predictor as a key rather than a key-value pair. An alternative is to represent the value of a predictor by the direction of a hypervector (e.g.&nbsp;by Fractional Power Encoding).</p>
 </section>
-<section id="theory-of-sequence-indexing" class="level3" data-number="2.4">
-<h3 data-number="2.4" class="anchored" data-anchor-id="theory-of-sequence-indexing"><span class="header-section-number">2.4</span> Theory of sequence indexing</h3>
+<section id="theory-of-sequence-indexing" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="theory-of-sequence-indexing"><span class="header-section-number">2.4</span> Theory of sequence indexing</h2>
 <p>The theory of sequence indexing and working memory in recurrent neural networks <span class="citation" data-cites="fradyTheorySequenceIndexing2018a">(<a href="#ref-fradyTheorySequenceIndexing2018a" role="doc-biblioref">Frady, Kleyko, and Sommer 2018</a>)</span> appears to be very relevant to this project, but I haven’t read it in detail yet. On the basis of a quick skim this project appears to differ by stressing the algebraic interpretation of the action of the reservoir update. In this project we interpret the reservoir update as algebraic VSA operations.</p>
 </section>
-<section id="integer-echo-state-network" class="level3" data-number="2.5">
-<h3 data-number="2.5" class="anchored" data-anchor-id="integer-echo-state-network"><span class="header-section-number">2.5</span> Integer Echo State Network</h3>
+<section id="integer-echo-state-network" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="integer-echo-state-network"><span class="header-section-number">2.5</span> Integer Echo State Network</h2>
 <p>We’ll start by applying this lens (algebraic interpretation of the reservoir update) to the Integer Echo State Network. The reservoir update equation <span class="citation" data-cites="kleykoIntegerEchoState2022">(<a href="#ref-kleykoIntegerEchoState2022" role="doc-biblioref">Kleyko, Frady, et al. 2022</a>, eqn. 5)</span> is: <span class="math display">\[\mathbf{x}(n) = f_\kappa(Sh(\mathbf{x}(n-1), 1) + \mathbf{u}^{\textrm{HD}}(n) + \mathbf{y}^{\textrm{HD}}(n-1))\]</span> where <span class="math inline">\(\mathbf{x}(n)\)</span> is the value of the hypervector representing the state of the reservoir at time <span class="math inline">\(n\)</span>; <span class="math inline">\(f_\kappa()\)</span> is the clipping function applied to the reservoir hypervector; <span class="math inline">\(Sh(\mathbf{x}(n-1), 1)\)</span> is the application of a cyclic shift (by one element) permutation to the value of the reservoir hypervector at the previous time step (<span class="math inline">\(n-1\)</span>); <span class="math inline">\(\mathbf{u}^{HD}(n)\)</span> is the hypervector encoding of the input vector at time <span class="math inline">\(n\)</span>; <span class="math inline">\(\mathbf{y}^{HD}(n-1))\)</span> is the is the hypervector encoding of the output vector at the previous time step (<span class="math inline">\(n-1\)</span>); and <span class="math inline">\(+\)</span> is hypervector addition (bundling).</p>
 <p>Simplify the equation and notation a little for ease of exposition:</p>
 <ul>
@@ -176,61 +181,82 @@ div.csl-indent {
 </ul>
 <p>The simplified equation is: <span class="math display">\[\mathbf{x}(n) = \textrm{P}(\mathbf{x}(n-1)) + \mathbf{u}(n)\]</span></p>
 </section>
-<section id="expand-repeated-application-of-the-reservoir-update-equation" class="level3" data-number="2.6">
-<h3 data-number="2.6" class="anchored" data-anchor-id="expand-repeated-application-of-the-reservoir-update-equation"><span class="header-section-number">2.6</span> Expand repeated application of the reservoir update equation</h3>
+<section id="expand-repeated-application-of-the-reservoir-update-equation" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="expand-repeated-application-of-the-reservoir-update-equation"><span class="header-section-number">2.6</span> Expand repeated application of the reservoir update equation</h2>
 <p>Trace out the repeated application, starting from time <span class="math inline">\(n = 0\)</span> with an empty reservoir, <span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span>, where <span class="math inline">\(\mathbf{0}\)</span> is the additive identity hypervector.</p>
 <p><span class="math inline">\(n = 0 : \mathbf{x}(0) = \mathbf{0}\)</span><br>
-<span class="math inline">\(n = 1 : \mathbf{x}(1) = \textrm{P}(\mathbf{x}(0)) + \mathbf{u}(1) = \textrm{P}(\mathbf{0}) + \mathbf{u}(1) = \mathbf{0} + \mathbf{u}(1) = \mathbf{u}(1)\)</span><br>
-<span class="math inline">\(n = 2 : \mathbf{x}(2) = \textrm{P}(\mathbf{x}(1)) + \mathbf{u}(2) = \textrm{P}(\mathbf{u}(1)) + \mathbf{u}(2)\)</span> <span class="math inline">\(n = 3 : \mathbf{x}(3) = \textrm{P}(\mathbf{x}(2)) + \mathbf{u}(3) = \textrm{P}(\textrm{P}(\mathbf{u}(1)) + \mathbf{u}(2)) + \mathbf{u}(3)\)</span><br>
-<span class="math inline">\(= \textrm{P}^2(\mathbf{u}(1)) + \textrm{P}(\mathbf{u}(2)) + \mathbf{u}(3) = \textrm{P}^2(\mathbf{u}(1)) + \textrm{P}^1(\mathbf{u}(2)) + \textrm{P}^0(\mathbf{u}(3))\)</span></p>
+<br>
+<span class="math inline">\(n = 1 : \mathbf{x}(1) = \textrm{P}(\mathbf{x}(0)) + \mathbf{u}(1)\)</span><br>
+<span class="math inline">\(= \textrm{P}(\mathbf{0}) + \mathbf{u}(1)\)</span><br>
+<span class="math inline">\(= \mathbf{0} + \mathbf{u}(1)\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1)\)</span><br>
+<br>
+<span class="math inline">\(n = 2 : \mathbf{x}(2) = \textrm{P}(\mathbf{x}(1)) + \mathbf{u}(2)\)</span><br>
+<span class="math inline">\(= \textrm{P}(\mathbf{u}(1)) + \mathbf{u}(2)\)</span><br>
+<br>
+<span class="math inline">\(n = 3 : \mathbf{x}(3) = \textrm{P}(\mathbf{x}(2)) + \mathbf{u}(3)\)</span><br>
+<span class="math inline">\(= \textrm{P}(\textrm{P}(\mathbf{u}(1)) + \mathbf{u}(2)) + \mathbf{u}(3)\)</span><br>
+<span class="math inline">\(= \textrm{P}^2(\mathbf{u}(1)) + \textrm{P}(\mathbf{u}(2)) + \mathbf{u}(3)\)</span><br>
+<span class="math inline">\(= \textrm{P}^2(\mathbf{u}(1)) + \textrm{P}^1(\mathbf{u}(2)) + \textrm{P}^0(\mathbf{u}(3))\)</span></p>
 <p>This is a standard VSA idiom for representation of a sequence of values <span class="citation" data-cites="kleykoSurveyHyperdimensionalComputing2022a">(<a href="#ref-kleykoSurveyHyperdimensionalComputing2022a" role="doc-biblioref">Kleyko, Rachkovskij, et al. 2022</a>, eqn. 17)</span>. The representation is equivalent to a set of predictors, each of which is a lagged copy of the input values. For example, the <span class="math inline">\(\textrm{P}^2(\mathbf{u}())\)</span> term represents the value of the input two time steps earlier. All the permutations are orthogonal, so the permutations effectively constitute the identities of the predictor variables. This means that the integer Echo State Network is restricted to modelling the outputs as weighted sums of the lagged inputs.</p>
-<p>A somewhat subtle point is that this reservoir update is not directly representing the sequence <span class="math inline">\(A \rightarrow B\rightarrow C\)</span> as successor relations, rather it is indicating when the states occurred and the successor relationships are implicit in the state times.</p>
-<p>Note that the form of the result resembles a polynomial with the powers of the pemutation corresponding to the powers of the variable of the polynomial and the input values corresponding to the coefficients of the polynomial. Note also that the result is iteratively built up, one input value at a time by transforming the result so far to reflect it’s updated role and bundling in the next input value.</p>
+<p>A somewhat subtle point is that this reservoir update is not directly representing the sequence <span class="math inline">\(A \rightarrow B\rightarrow C\)</span> as successor relations, rather it is indicating when the states occurred (relative to the current state) and the successor relationships are implicit in the state times.</p>
+<p>Note that the form of the result resembles a polynomial with the powers of the permutation corresponding to the powers of the variable of the polynomial and the input values corresponding to the coefficients of the polynomial. Note also that the result is iteratively built up, one input value at a time by transforming the result so far to reflect it’s updated role and bundling in the next input value.</p>
+<div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="polynomial-feature-construction" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="polynomial-feature-construction"><span class="header-section-number">3</span> Polynomial feature construction</h2>
-<section id="what-does-next-generation-rc-do" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="what-does-next-generation-rc-do"><span class="header-section-number">3.1</span> What does Next Generation RC do?</h3>
+<section id="polynomial-feature-construction" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Polynomial feature construction</h1>
+<section id="what-does-next-generation-rc-do" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="what-does-next-generation-rc-do"><span class="header-section-number">3.1</span> What does Next Generation RC do?</h2>
 <p>Next Generation Reservoir Computing replaces the recurrent reservoir calculations with the direct calculation of products of delayed input values <span class="citation" data-cites="gauthierNextGenerationReservoir2021">(<a href="#ref-gauthierNextGenerationReservoir2021" role="doc-biblioref">Gauthier et al. 2021, fig. 1</a>)</span>. This is justified by a universal approximator result showing that the NGRC is equivalent to traditional RC. The NGRC authors see the advantage of this as being the elimination of the reservoir, in particular, the random matrix implementing the reservoir update,</p>
 <p>From the point of view of a statistical modeller, NGRC is constructing polynomial interaction features from the input stream to use as predictors in a simple regression model. We investigate how to create equivalent VSA polynomial interaction features using VSA mechanisms.</p>
 </section>
-<section id="rc-as-incremental-construction-of-predictors" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="rc-as-incremental-construction-of-predictors"><span class="header-section-number">3.2</span> RC as incremental construction of predictors</h3>
+<section id="rc-as-incremental-construction-of-predictors" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="rc-as-incremental-construction-of-predictors"><span class="header-section-number">3.2</span> RC as incremental construction of predictors</h2>
 <p>We <em>could</em> create a desired set of polynomial predictors in one step, but this would require knowing which specific predictors are required and would require dedicated VSA circuitry for each predictor to be constructed. Instead, we will use a reservoir update circuit to construct <em>all</em> the polynomial predictors incrementally.</p>
 <p>Note that the NGRC objection to the reservoir was actually to the random matrix. The VSA reservoir update does not use a random matrix so we don’t have the tuning problems identified by the NGRC authors.</p>
 <p>VSA reservoir update relies on superposition and distributivity to construct many predictors in parallel, so it requires much less hardware than dedicated hardware for each predictor.</p>
 <p>Also, note that because of the incremental update the predictor terms are constructed on a specific order. The simplest terms are constructed first and more complex terms later (with smaller magnitude). This constitutes an inductive bias to use lower order terms.</p>
+<div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="vsa-polynomial-reservoir-update" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="vsa-polynomial-reservoir-update"><span class="header-section-number">4</span> VSA polynomial reservoir update</h2>
-<section id="develop-polynomial-update-formula" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="develop-polynomial-update-formula"><span class="header-section-number">4.1</span> Develop polynomial update formula</h3>
-<section id="x-1n" class="level4" data-number="4.1.1">
-<h4 data-number="4.1.1" class="anchored" data-anchor-id="x-1n"><span class="header-section-number">4.1.1</span> <span class="math inline">\((x + 1)^n\)</span></h4>
+<section id="vsa-polynomial-reservoir-update" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> VSA polynomial reservoir update</h1>
+<section id="develop-polynomial-update-formulae" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="develop-polynomial-update-formulae"><span class="header-section-number">4.1</span> Develop polynomial update formulae</h2>
+</section>
+<section id="x-1n" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="x-1n"><span class="header-section-number">4.2</span> <span class="math inline">\((x + 1)^n\)</span></h2>
 <p>Base the first attempt at the reservoir update on the polynomial <span class="math inline">\((x + 1)^n\)</span>. Take the simplified update equation (where <span class="math inline">\(\times\)</span> is hypervector multiplication (binding)): <span class="math display">\[\mathbf{x}(n) = (\mathbf{x}(n-1) + \mathbf{1}) \times (\mathbf{u}(n) + \mathbf{1})\]</span></p>
 <p>Trace out the repeated application of the reservoir update equation, starting from time <span class="math inline">\(n = 0\)</span> with an empty reservoir, <span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span>.</p>
 <p><span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span><br>
-<span class="math inline">\(\mathbf{x}(1) = (\mathbf{x}(0) + \mathbf{1}) \times (\mathbf{u}(1) + \mathbf{1}) = (\mathbf{0} + \mathbf{1}) \times (\mathbf{u}(1) + \mathbf{1}) = \mathbf{u}(1) + \mathbf{1}\)</span><br>
-<span class="math inline">\(\mathbf{x}(2) = (\mathbf{x}(1) + \mathbf{1}) \times (\mathbf{u}(2) + \mathbf{1}) = (\mathbf{u}(1) + \mathbf{1} + \mathbf{1}) \times (\mathbf{u}(2) + \mathbf{1})\)</span><br>
+<br>
+<span class="math inline">\(\mathbf{x}(1) = (\mathbf{x}(0) + \mathbf{1}) \times (\mathbf{u}(1) + \mathbf{1})\)</span><br>
+<span class="math inline">\(= (\mathbf{0} + \mathbf{1}) \times (\mathbf{u}(1) + \mathbf{1})\)</span><br>
+<span class="math inline">\(= \mathbf{1} \times (\mathbf{u}(1) + \mathbf{1})\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{1}\)</span><br>
+<br>
+<span class="math inline">\(\mathbf{x}(2) = (\mathbf{x}(1) + \mathbf{1}) \times (\mathbf{u}(2) + \mathbf{1})\)</span><br>
+<span class="math inline">\(= (\mathbf{u}(1) + \mathbf{1} + \mathbf{1}) \times (\mathbf{u}(2) + \mathbf{1})\)</span><br>
 <span class="math inline">\(= \mathbf{u}(1) \times \mathbf{u}(2) + 2 \cdot \mathbf{u}(2) + \mathbf{u}(1) + 2\cdot \mathbf{1}\)</span><br>
+<br>
 <span class="math inline">\(\mathbf{x}(3) = (\mathbf{x}(2) + \mathbf{1}) \times (\mathbf{u}(3) + \mathbf{1})\)</span><br>
 <span class="math inline">\(= (\mathbf{u}(1) \times \mathbf{u}(2) + 2 \cdot \mathbf{u}(2) + \mathbf{u}(1) + 2\cdot \mathbf{1} + \mathbf{1}) \times (\mathbf{u}(3) + \mathbf{1})\)</span><br>
 <span class="math inline">\(= (\mathbf{u}(1) \times \mathbf{u}(2) + 2 \cdot \mathbf{u}(2) + \mathbf{u}(1) + 3\cdot \mathbf{1}) \times (\mathbf{u}(3) + \mathbf{1})\)</span><br>
 <span class="math inline">\(= \mathbf{u}(1) \times \mathbf{u}(2) \times \mathbf{u}(3)+ 2 \cdot \mathbf{u}(2) \times \mathbf{u}(3) + \mathbf{u}(1) \times \mathbf{u}(3) + 3\cdot \mathbf{u}(3) + \mathbf{u}(1) \times \mathbf{u}(2) + 2 \cdot \mathbf{u}(2) + \mathbf{u}(1) + 3\cdot \mathbf{1}\)</span><br>
 </p>
-<p>where <span class="math inline">\(\cdot\)</span> is for clarity when multiplying a scalar by a hypervector.</p>
+<p>where “<span class="math inline">\(\cdot\)</span>” is for clarity when multiplying a scalar by a hypervector.</p>
 <p>This reservoir update forms product and cross-product terms from lagged values of the input. It retains the old terms across iterations and adds new terms at each iteration.</p>
 <p>Note that this update probably can’t be used directly with self-inverse VSA schemes (e.g.&nbsp;BSC or MAP) because the multiplied terms would self-cancel. This update could be probably be used with self-inverse VSA schemes if the terms were permuted at each iteration.</p>
 <p>To a first approximation the different scalar multipliers of the terms are irrelevant because all the terms will be multiplied by scalar coefficients in the regression readout. These readout coefficients can compensate for arbitrary scalar multipliers of the terms.</p>
 <p>The scalar multipliers determine the relative magnitudes of the hypervectors corresponding to the algebraic terms. Given that the magnitude of the reservoir hypervector will almost certainly be normalised, this means that the terms with the smallest scalar multipliers will have the smallest smallest magnitudes. This raises the possibility that terms with very small magnitudes may become effectively invisible in the noise of the VSA system.</p>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="multiplicative-identity-mathbf1-and-copy-arcs" class="level4" data-number="4.1.2">
-<h4 data-number="4.1.2" class="anchored" data-anchor-id="multiplicative-identity-mathbf1-and-copy-arcs"><span class="header-section-number">4.1.2</span> Multiplicative identity (<span class="math inline">\(\mathbf{1}\)</span>) and copy arcs</h4>
+<section id="multiplicative-identity-mathbf1-and-copy-arcs" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="multiplicative-identity-mathbf1-and-copy-arcs"><span class="header-section-number">4.3</span> Multiplicative identity (<span class="math inline">\(\mathbf{1}\)</span>) and copy arcs</h2>
 <p>The multiplicative identity (<span class="math inline">\(\mathbf{1}\)</span>) is in the update formula to copy terms across iterations. The update formula above generates a <span class="math inline">\(\mathbf{1}\)</span> term as an additive component of the reservoir hypervector at every iteration. This term is uninformative with respect to variation of the predictions. Given that some of the magnitude of the reservoir hypervector is used by the <span class="math inline">\(\mathbf{1}\)</span> term, that the magnitude of the reservoir hypervector is almost certainly normalised, and that the implementation will be noisy, the presence of the <span class="math inline">\(\mathbf{1}\)</span> term reduces the information capacity of the reservoir hypervector.</p>
 <p>It would be interesting to see if a polynomial reservoir update can be constructed without using the multiplicative identity term (<span class="math inline">\(\mathbf{1}\)</span>). The key observation here is that binding with the multiplicative identity term is effectively a copy operation in the data VSA flow graph. Translate the reservoir update equation <span class="math inline">\(\mathbf{x}(n) = (\mathbf{x}(n-1) + \mathbf{1}) \times (\mathbf{u}(n) + \mathbf{1})\)</span> to a VSA data flow graph.</p>
-<p>The circle nodes correspond to VSA operators: binary addition and multiplication, unary delay, and nullary constant value. The arrows between nodes correspond to transfers of hypervectors. Some of the arrows are labelled with the corresponding terms in the update equation. The blue arrows correspond to the <span class="math inline">\((\mathbf{u}(n) + \mathbf{1})\)</span> term and the red arrows correspond to the <span class="math inline">\((\mathbf{x}(n-1) + \mathbf{1})\)</span> term, which will be simplified later.</p>
+<p>The circle nodes correspond to VSA operators: binary addition and multiplication, unary delay, and the multiplicative identity constant value. The arrows between nodes correspond to transfers of hypervectors. Some of the arrows are labelled with the corresponding terms in the update equation. The blue arrows correspond to the <span class="math inline">\((\mathbf{u}(n) + \mathbf{1})\)</span> term and the red arrows correspond to the <span class="math inline">\((\mathbf{x}(n-1) + \mathbf{1})\)</span> term, which will be simplified later.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-1" class="quarto-figure quarto-figure-center anchored">
@@ -304,7 +330,7 @@ const1:s-&gt;add2:nw
 <path fill="none" stroke="red" d="M73.24,-216C73.24,-202.04 69.8,-193.38 74.14,-184.27"></path> <polygon fill="red" stroke="red" points="77.12,-186.12 80.24,-176 71.49,-181.97 77.12,-186.12"></polygon> </g> </g>
 </svg>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: <span class="math inline">\(\mathbf{x}(n) = (\mathbf{x}(n-1) + \mathbf{1}) \times (\mathbf{u}(n) + \mathbf{1})\)</span></figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;1: <span class="math inline">\(\mathbf{x}(n) = (\mathbf{x}(n-1) + \mathbf{1}) \times (\mathbf{u}(n) + \mathbf{1})\)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -312,6 +338,7 @@ const1:s-&gt;add2:nw
 <p>The purpose of the <span class="math inline">\(\mathbf{1}\)</span> in <span class="math inline">\((\mathbf{u}(n) + \mathbf{1})\)</span> is to copy <span class="math inline">\(\mathbf{x}(n-1)\)</span> into the result. This means that the updated result starts as a copy of the previous value of the result.</p>
 <p>The purpose of the <span class="math inline">\(\mathbf{1}\)</span> in <span class="math inline">\((\mathbf{x}(n-1) + \mathbf{1})\)</span> is to copy <span class="math inline">\(\mathbf{u}(n)\)</span> into the result. This means that the current input is added in to the updated result.</p>
 <p>The other term added into the result is <span class="math inline">\(\mathbf{x}(n-1) \times \mathbf{u}(n)\)</span>.</p>
+<div style="page-break-after: always;"></div>
 <p>In the next VSA data flow graph these three terms are calculated directly and added to form the result. This graph corresponds to the reservoir update equation: <span class="math inline">\(\mathbf{x}(n) = \mathbf{x}(n-1) + \mathbf{u}(n) + \mathbf{u}(n) \times \mathbf{x}(n-1)\)</span></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -374,7 +401,7 @@ del:ne-&gt;add:ne
 <path fill="none" stroke="red" d="M92.43,-85.9C107.79,-101.27 67.57,-104.74 44.34,-91.02"></path> <polygon fill="red" stroke="red" points="46.48,-88.24 36.43,-84.9 42.2,-93.78 46.48,-88.24"></polygon> <text text-anchor="middle" x="109.92" y="-90.1" font-family="Times,serif" font-size="14.00">x(n-1)</text> </g> </g>
 </svg>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: <span class="math inline">\(\mathbf{x}(n) = \mathbf{x}(n-1) + \mathbf{u}(n) + \mathbf{u}(n) \times \mathbf{x}(n-1)\)</span></figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;2: <span class="math inline">\(\mathbf{x}(n) = \mathbf{x}(n-1) + \mathbf{u}(n) + \mathbf{u}(n) \times \mathbf{x}(n-1)\)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -382,14 +409,22 @@ del:ne-&gt;add:ne
 <p>Trace out the repeated application of the reservoir update equation, starting from time <span class="math inline">\(n = 0\)</span> with an empty reservoir, <span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span>.</p>
 <p><span class="math display">\[\mathbf{x}(n) = \mathbf{x}(n-1) + \mathbf{u}(n) + \mathbf{u}(n) \times \mathbf{x}(n-1)\]</span></p>
 <p><span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span><br>
-<span class="math inline">\(\mathbf{x}(1) = \mathbf{x}(0) + \mathbf{u}(1) + \mathbf{u}(1) \times \mathbf{x}(0) = \mathbf{u}(1)\)</span><br>
+<br>
+<span class="math inline">\(\mathbf{x}(1) = \mathbf{x}(0) + \mathbf{u}(1) + \mathbf{u}(1) \times \mathbf{x}(0)\)</span><br>
+<span class="math inline">\(= \mathbf{0} + \mathbf{u}(1) + \mathbf{0}\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1)\)</span><br>
+<br>
 <span class="math inline">\(\mathbf{x}(2) = \mathbf{x}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{x}(1)\)</span><br>
-<span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1)\)</span> <span class="math inline">\(\mathbf{x}(3) = \mathbf{x}(2) + \mathbf{u}(3) + \mathbf{u}(3) \times \mathbf{x}(2)\)</span><br>
-<span class="math inline">\(= (\mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1)) + \mathbf{u}(3) + \mathbf{u}(3) \times (\mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1))\)</span> <span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1) + \mathbf{u}(3) + \mathbf{u}(3) \times \mathbf{u}(1) + \mathbf{u}(3) \times \mathbf{u}(2) + \mathbf{u}(3) \times \mathbf{u}(2) \times \mathbf{u}(1))\)</span></p>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1)\)</span><br>
+<br>
+<span class="math inline">\(\mathbf{x}(3) = \mathbf{x}(2) + \mathbf{u}(3) + \mathbf{u}(3) \times \mathbf{x}(2)\)</span><br>
+<span class="math inline">\(= (\mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1)) + \mathbf{u}(3) + \mathbf{u}(3) \times (\mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1))\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(2) + \mathbf{u}(2) \times \mathbf{u}(1) + \mathbf{u}(3) + \mathbf{u}(3) \times \mathbf{u}(1) + \mathbf{u}(3) \times \mathbf{u}(2) + \mathbf{u}(3) \times \mathbf{u}(2) \times \mathbf{u}(1)\)</span></p>
 <p>This generates all the interactions of increasing order.</p>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="reservoir-update-with-permutation" class="level4" data-number="4.1.3">
-<h4 data-number="4.1.3" class="anchored" data-anchor-id="reservoir-update-with-permutation"><span class="header-section-number">4.1.3</span> Reservoir update with permutation</h4>
+<section id="reservoir-update-with-permutation" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="reservoir-update-with-permutation"><span class="header-section-number">4.4</span> Reservoir update with permutation</h2>
 <p>I noted earlier that permutation would be required if we tried to use a self-inverse VSA scheme with this kind of reservoir update that generates products of terms. Note that the interaction terms generated above are unordered because of the commutativity of the product operator. If we used a noncommutative product then we wouldn’t need to use permutation to capture the the ordering of the terms.</p>
 <p>An interesting case occurs when we use Fractional Power Encoded scalar values as inputs. FPE encoded values are equivalent to vectors and the product of FPE encoded values is equivalent to vector addition of the component vectors. The result is the same regardless of the order in which the vectors are added. If the order of the vector values is important for the problem being solved by the reservoir computer (e.g.&nbsp;in navigation where the path to the destination is important, rather than the location of the destination) then we need to encode the vectors in a way that is sensitive to the order, for example by applying permutation powers to the vectors.</p>
 <p>There is probably no single “right” way to construct a reservoir update and we will need to design it to meet the requirements of the current task. Let’s do that here. We’ll take the previous reservoir update equation and modify it to meet some (ambiguous and ill-defined) objectives.</p>
@@ -463,7 +498,7 @@ del:ne-&gt;pbef:se
 <path fill="none" stroke="lightgrey" d="M113.32,-86.9C124.58,-98.16 126.7,-111.09 119.66,-122.97"></path> <polygon fill="lightgrey" stroke="lightgrey" points="116.77,-120.98 113.32,-131 122.27,-125.32 116.77,-120.98"></polygon> <text text-anchor="middle" x="130.82" y="-91.1" font-family="Times,serif" font-size="14.00">x(n-1)</text> </g> </g>
 </svg>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: <span class="math inline">\(\mathbf{x}(n) = \mathbf{u}(n) + \mathbf{u}(n) \times \textrm{P}_{bef}(\mathbf{x}(n-1))\)</span></figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;3: <span class="math inline">\(\mathbf{x}(n) = \mathbf{u}(n) + \mathbf{u}(n) \times \textrm{P}_{bef}(\mathbf{x}(n-1))\)</span></figcaption>
 </figure>
 </div>
 </div>
@@ -471,47 +506,55 @@ del:ne-&gt;pbef:se
 <p>Trace out the repeated application of the reservoir update equation, starting from time <span class="math inline">\(n = 0\)</span> with an empty reservoir, <span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span>.</p>
 <p><span class="math inline">\(\mathbf{x}(n) = \mathbf{u}(n) + \mathbf{u}(n) \times \textrm{P}_{bef}(\mathbf{x}(n-1))\)</span></p>
 <p><span class="math inline">\(\mathbf{x}(0) = \mathbf{0}\)</span><br>
-<span class="math inline">\(\mathbf{x}(1) = \mathbf{u}(1) + \mathbf{u}(1) \times \textrm{P}_{bef}(\mathbf{x}(0)) = \mathbf{u}(1)\)</span><br>
+<br>
+<span class="math inline">\(\mathbf{x}(1) = \mathbf{u}(1) + \mathbf{u}(1) \times \textrm{P}_{bef}(\mathbf{x}(0))\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(1) \times \textrm{P}_{bef}(\mathbf{0})\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{u}(1) \times \mathbf{0}\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1) + \mathbf{0}\)</span><br>
+<span class="math inline">\(= \mathbf{u}(1)\)</span><br>
+<br>
 <span class="math inline">\(\mathbf{x}(2) = \mathbf{u}(2) + \mathbf{u}(2) \times \textrm{P}_{bef}(\mathbf{x}(1))\)</span><br>
 <span class="math inline">\(= \mathbf{u}(2) + \mathbf{u}(2) \times \textrm{P}_{bef}(\mathbf{u}(1))\)</span><br>
+<br>
 <span class="math inline">\(\mathbf{x}(3) = \mathbf{u}(3) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{x}(2))\)</span><br>
 <span class="math inline">\(= \mathbf{u}(3) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2) + \mathbf{u}(2) \times \textrm{P}_{bef}(\mathbf{u}(1)))\)</span><br>
-<span class="math inline">\(= \mathbf{u}(3) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2)) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2) \times \textrm{P}_{bef}(\mathbf{u}(1)))\)</span><br>
-<span class="math inline">\(= \mathbf{u}(3) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2)) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2)) \times \textrm{P}^2_{bef}(\mathbf{u}(1)))\)</span><br>
+<span class="math inline">\(= \mathbf{u}(3) + \mathbf{u}(3) \times (\textrm{P}_{bef}(\mathbf{u}(2)) + \textrm{P}_{bef}(\mathbf{u}(2)) \times \textrm{P}^2_{bef}(\mathbf{u}(1)))\)</span><br>
+<span class="math inline">\(= \mathbf{u}(3) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2)) + \mathbf{u}(3) \times \textrm{P}_{bef}(\mathbf{u}(2)) \times \textrm{P}^2_{bef}(\mathbf{u}(1))\)</span><br>
 </p>
 <p>This reservoir generates all the sequences of input values of increasing length.</p>
 <p>Obviously there is plenty of scope for modifying the update equation to generate different predictors.</p>
+<div style="page-break-after: always;"></div>
 </section>
 </section>
-</section>
-<section id="feature-fading" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="feature-fading"><span class="header-section-number">5</span> Feature fading</h2>
+<section id="feature-fading" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Feature fading</h1>
 <p>In general every iteration through the reservoir update equation can add more terms to the reservoir state. This can continue arbitrarily long, so the reservoir state can become arbitrarily complex (when viewed as algebraic terms).</p>
 <p>You might think this would cause problems because the number of features keeps increasing and because it implies infinite memory (terms hanging around forever). In practice this is not an issue because the magnitudes of the terms decrease over time because of the bundling update. Eventually the terms will have such a low magnitude that they are effectively lost in the system noise.</p>
-<section id="nonassociative-bundling" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="nonassociative-bundling"><span class="header-section-number">5.1</span> Nonassociative bundling</h3>
+<section id="nonassociative-bundling" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="nonassociative-bundling"><span class="header-section-number">5.1</span> Nonassociative bundling</h2>
 <p>Bundling (as implemented, rather than as a mathematical abstraction) loses information. The more times a term has passed through bundling, the more information it has lost. This is reflected in the reducing magnitude of the hypervector representing the algebraic term.</p>
 <p>This is most obvious when you consider randsel bundling <span class="citation" data-cites="gaylerImplementRandselBundling2022 heddesRandselTorchhdDocumentation2022">(<a href="#ref-gaylerImplementRandselBundling2022" role="doc-biblioref">Gayler 2022</a>; <a href="#ref-heddesRandselTorchhdDocumentation2022" role="doc-biblioref">Heddes et al. 2022</a>)</span>. In randsel bundling each output element is selected at random from the corresponding elements of the argument hypervectors. With two arguments and equal selection probability only half the elements are copied from each argument hypervector to the result hypervector. Consequently, the hypervector representing each algebraic term has half it’s original magnitude. Thus, the half-life of each term in the reservoir would be one time step.</p>
 </section>
-<section id="weighted-bundling" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="weighted-bundling"><span class="header-section-number">5.2</span> Weighted bundling</h3>
+<section id="weighted-bundling" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="weighted-bundling"><span class="header-section-number">5.2</span> Weighted bundling</h2>
 <p>Note that the bundling operator doesn’t have to be binary, it can have an arbitrary (but generally small) number of arguments. We can also associate a positive scalar weight with each argument that controls the relative contribution of that argument to the result.</p>
 <p>For example in <a href="#fig-2">Figure&nbsp;2</a>, the bundling operator has three arguments. This could be implemented as weighted bundling and the weights used to control the relative magnitudes of the arguments in the result. Increasing the weight of the <span class="math inline">\(\mathbf{x}(n-1)\)</span> term would increase the magnitude of the current reservoir state preserved in the next state and therefore extend the retention duration of the reservoir (at the cost of decreasing the relative magnitudes of the <span class="math inline">\(\mathbf{u}(n)\)</span> and <span class="math inline">\((\mathbf{u}(n) \times \mathbf{x}(n-1))\)</span> added in at each time step).</p>
 </section>
-<section id="bundled-inputs" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="bundled-inputs"><span class="header-section-number">5.3</span> Bundled inputs</h3>
-<p>The preceding discussions might have given the impression that the input stream (<span class="math inline">\(\mathbf{u}(n)\)</span>) consists of atomic vectors. However, the joy of VSA is that everything is just a hypervector value, so the input stream could be arbitrarily complicated values. In particular the input stream could consist of the sum of the input and output streams used in classical RC, and wighted bundling could be used to control their relative contributions.</p>
+<section id="bundled-inputs" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="bundled-inputs"><span class="header-section-number">5.3</span> Bundled inputs</h2>
+<p>The preceding discussions might have given the impression that the input stream (<span class="math inline">\(\mathbf{u}(n)\)</span>) consists of atomic vectors. However, the joy of VSA is that everything is just a hypervector value, so the input stream could be arbitrarily complicated values. In particular the input stream could consist of the sum of the input and output streams used in classical RC, and weighted bundling could be used to control their relative contributions.</p>
+<div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="development-suggestions" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="development-suggestions"><span class="header-section-number">6</span> Development suggestions</h2>
+<section id="development-suggestions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Development suggestions</h1>
 <p>The following points are directions that might be worth investigating.</p>
-<section id="inputhierarchical-encoding" class="level3" data-number="6.1">
-<h3 data-number="6.1" class="anchored" data-anchor-id="inputhierarchical-encoding"><span class="header-section-number">6.1</span> Input/hierarchical encoding</h3>
+<section id="inputhierarchical-encoding" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="inputhierarchical-encoding"><span class="header-section-number">6.1</span> Input/hierarchical encoding</h2>
 <p>It might be advantageous to construct sequence representations in the input streams rather than in the reservoir update. This might be equivalent to hierarchical reservoirs. We could have input-stream-specific reservoirs that create input sequence representations and a stream fusion reservoir (or maybe stream fusion doesn’t need the recurrent update).</p>
 </section>
-<section id="intercept-term" class="level3" data-number="6.2">
-<h3 data-number="6.2" class="anchored" data-anchor-id="intercept-term"><span class="header-section-number">6.2</span> Intercept term</h3>
+<section id="intercept-term" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="intercept-term"><span class="header-section-number">6.2</span> Intercept term</h2>
 <p>Reservoir readout is performed by a weighted sum (effectively a regression model). Statistical regression normally allows for an intercept (bias) term and the goodness of fit can depend strongly on whether an intercept term is included in the readout model.</p>
 <p>Typical statistical regression software normally constructs the intercept term implicitly rather than requiring it to be explicitly present as a predictor. Depending on how the readout has been implemented in some VSA RC model it is possible that the intercept term has not been included.</p>
 <ul>
@@ -520,34 +563,35 @@ del:ne-&gt;pbef:se
 <li><p>If readout is implemented by VSA bundling it is only necessary to ensure that the reservoir hypervector contains a multiplicative identity hypervector term (<span class="math inline">\(\mathbf{1}\)</span>).</p></li>
 </ul>
 </section>
-<section id="bundling-and-capacity" class="level3" data-number="6.3">
-<h3 data-number="6.3" class="anchored" data-anchor-id="bundling-and-capacity"><span class="header-section-number">6.3</span> Bundling and capacity</h3>
-<p>The discussion of feature fading and weighted bundling shows that we need a better treatment of bundling and capacity than just considering the number of items that are included in the bundle. It’s not just the number of superposed items, which can be changed arbitrarily by algebraic re-arrangement. Also, a D-dimensional HRR binding is equivalent to the sum of D-many MAP bindings, but only counts as one item in the traditional capacity analysis.</p>
+<section id="bundling-and-capacity" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="bundling-and-capacity"><span class="header-section-number">6.3</span> Bundling and capacity</h2>
+<p>The discussion of feature fading and weighted bundling shows that we need a better treatment of bundling and capacity than just considering the number of items that are included in the bundle. It’s not just the number of superposed items, which can be changed arbitrarily by algebraic re-arrangement. Also, a <span class="math inline">\(d\)</span>-dimensional HRR binding is equivalent to the sum of <span class="math inline">\(d\)</span> many MAP bindings, but only counts as one item in the traditional capacity analysis.</p>
 </section>
-<section id="warm-up" class="level3" data-number="6.4">
-<h3 data-number="6.4" class="anchored" data-anchor-id="warm-up"><span class="header-section-number">6.4</span> Warm up</h3>
+<section id="warm-up" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="warm-up"><span class="header-section-number">6.4</span> Warm up</h2>
 <p>Standard RC uses a warm-up to allow the reservoir state to get past any transient states arising from the initial value of the reservoir.</p>
 <ul>
 <li><p>Investigate the impact of initial values on the length of required warm-up. In the formulae above I used zero hypervector initial values. Other possibilities are the one hypervector and a randomly selected hypervector. Another reasonable choice might be to randomly select a value from the set of reservoir values seen after warm-up. I would be interesting to investigate how long it takes the reservoir to synchronise to the new input.</p></li>
 <li><p>Investigate whether it is possible to read-out from the reservoir during the warm-up phase. A realistic environment is non-stationary, so arguably there is a continual stream of (partial?) re-starts. There would be an evolutionary advantage to the readout being useful, regardless of how recently the system had been restarted.</p></li>
 </ul>
 </section>
-<section id="dynamic-readout" class="level3" data-number="6.5">
-<h3 data-number="6.5" class="anchored" data-anchor-id="dynamic-readout"><span class="header-section-number">6.5</span> Dynamic readout</h3>
+<section id="dynamic-readout" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="dynamic-readout"><span class="header-section-number">6.5</span> Dynamic readout</h2>
 <p>Rather than having a fixed-weight readout mechanism, is it possible to have a readout mechanism that varies in response to the task demands at readout time? This might be related to avoidance of catastrophic forgetting (e.g. <span class="citation" data-cites="frenchDynamicallyConstrainingConnectionist1994">French (<a href="#ref-frenchDynamicallyConstrainingConnectionist1994" role="doc-biblioref">1994</a>)</span>) and generalisation at recall rather than in a separate training phase (e.g. <span class="citation" data-cites="shabahangGeneralizationRetrievalUsing2022">Shabahang, Yim, and Dennis (<a href="#ref-shabahangGeneralizationRetrievalUsing2022" role="doc-biblioref">2022</a>)</span>).</p>
 </section>
-<section id="dynamic-update" class="level3" data-number="6.6">
-<h3 data-number="6.6" class="anchored" data-anchor-id="dynamic-update"><span class="header-section-number">6.6</span> Dynamic update</h3>
+<section id="dynamic-update" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="dynamic-update"><span class="header-section-number">6.6</span> Dynamic update</h2>
 <p>Continuing the same theme of making RC mechanisms dynamic, it might be possible for the update formula to change dynamically to indefinitely preserve the contents of the reservoir as a working memory and to emphasize representational components that are most relevant to the current task. For example, it might be appropriate to insert a dynamically updated cleanup memory in the reservoir update loop.</p>
 <p>Another point to consider is whether to include gating in the reservoir update loop, so that the reservoir is only updated when there are material changes in the environment rather than every time step.</p>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="section" class="level3 unnumbered" data-number="6.7">
+</section>
+<section id="references" class="level1 unnumbered" data-number="7">
 
 
 </section>
-</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">6.7 </h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">7 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-fradyTheorySequenceIndexing2018a" class="csl-entry" role="listitem">
 Frady, E. Paxon, Denis Kleyko, and Friedrich T. Sommer. 2018. <span>“A Theory of Sequence Indexing and Working Memory in Recurrent Neural Networks.”</span> <em>Neural Computation</em> 30 (6): 1449–1513. <a href="https://doi.org/10.1162/neco_a_01084">https://doi.org/10.1162/neco_a_01084</a>.
 </div>
